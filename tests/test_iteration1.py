@@ -59,25 +59,6 @@ def test_default_hit_points():
     c2 = Character(traits)
     assert c2.HP == 5
 
-def test_create_enemy():
-    traits = {}
-    enemy = Character(traits)
-    assert Character.attack(enemy, 20) == "Hit"
-
-def test_guess_i_never_miss_huh():
-    traits={}
-    enemy = Character(traits)
-    assert Character.attack(enemy, 9) == "Whiff"
-
-def test_i_slapped_will_smith():
-    traits={}
-    enemy= Character(traits)
-    assert Character.attack(enemy, 10) == "Hit"
-
-def test_i_slapped_will_smith_harder():
-    traits={}
-    enemy= Character(traits)
-    assert Character.attack(enemy, 14) == "Hit"
 
 # def test_attack_roll20():
 
@@ -90,6 +71,29 @@ def test_i_slapped_will_smith_harder():
 # - roll must meet or beat opponent's armor class to hit
 # - a natural roll of 20 always hits
 
+# test for a crit success regardless of enemy AC
+def test_create_enemy():
+    traits = {}
+    enemy = Character(traits)
+    assert Character.attack(enemy, 20) == "Hit"
+
+#test for a miss with a roll lower than the enemy AC
+def test_guess_i_never_miss_huh():
+    traits={}
+    enemy = Character(traits)
+    assert Character.attack(enemy, 9) == "Whiff"
+
+#test for a hit with a result greater than enemy AC
+def test_i_slapped_will_smith():
+    traits={}
+    enemy= Character(traits)
+    assert Character.attack(enemy, 10) == "Hit"
+
+#test for a hit with a roll greater than enemy AC
+def test_i_slapped_will_smith_harder():
+    traits={}
+    enemy= Character(traits)
+    assert Character.attack(enemy, 14) == "Hit"
 
 
 # #### Feature: Character Can Be Damaged
@@ -97,8 +101,17 @@ def test_i_slapped_will_smith_harder():
 # > As an attacker I want to be able to damage my enemies so that they will die and I will live
 
 # - If attack is successful, other character takes 1 point of damage when hit
+# this should have the enemy take one damage on a hit that isn't a crit
+def test_i_can_deal_damage():
+    traits={}
+    enemy = Character(traits)
+    Character.attack(enemy, 19)
+    assert enemy.HP == 4
 # - If a roll is a natural 20 then a critical hit is dealt and the damage is doubled
+
 # - when hit points are 0 or fewer, the character is dead
+
+
 
 
 

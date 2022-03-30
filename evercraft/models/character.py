@@ -33,11 +33,12 @@ class Character:
     
     def attack(target, roll):
         if roll == 20 or roll >= target.AC:
-            return "Hit"
+            target.HP = target.HP - 1
+            return 'Hit'
         elif roll < target.AC:
             return "Whiff"
         else:
-            return "I don't know what to do"
+            return "That doesn't seem to be a number"
 
 
 c1 = Character(TRAITS)
