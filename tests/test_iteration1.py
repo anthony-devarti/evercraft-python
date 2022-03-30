@@ -389,7 +389,76 @@ def test_weak_char_hits():
     assert bad.HP == 4
 
 # (even on a critical hit)
+def test_weak_char_hit_on_crit():
+    traits = {
+    "name": "Brutus",
+    "alignment": 'good',
+    "AC": 12,
+    'HP': 8,
+    "life": True,
+    "str" : 1,
+    "dex" : 14,
+    "int" : 10,
+    "wis" : 10,
+    "cha" : 10,
+    "con" : 10
+    }
+    brutus = Character(traits)
+    bad = Character()
+    brutus.attack(bad, 20, brutus.str)
+    assert bad.HP == 3
 
 # - add Dexterity modifier to armor class
 
-# - add Constitution modifier to hit points (always at least 1 hit point)
+def test_dex_affects_ac():
+    traits = {
+    "name": "Brutus",
+    "alignment": 'good',
+    "AC": 12,
+    'HP': 8,
+    "life": True,
+    "str" : 1,
+    "dex" : 14,
+    "int" : 10,
+    "wis" : 10,
+    "cha" : 10,
+    "con" : 10
+    }
+    brutus = Character(traits)
+    assert brutus.AC == 14
+
+# - add Constitution modifier to hit points
+def test_con_affects_hp():
+    traits = {
+    "name": "Brutus",
+    "alignment": 'good',
+    "AC": 12,
+    'HP': 5,
+    "life": True,
+    "str" : 1,
+    "dex" : 14,
+    "int" : 10,
+    "wis" : 10,
+    "cha" : 10,
+    "con" : 14
+    }
+    brutus = Character(traits)
+    assert brutus.HP == 7
+
+# even if the con is really low, char hp will never be negative
+def test_bad_con_affects_hp():
+    traits = {
+    "name": "Brutus",
+    "alignment": 'good',
+    "AC": 12,
+    'HP': 4,
+    "life": True,
+    "str" : 1,
+    "dex" : 14,
+    "int" : 10,
+    "wis" : 10,
+    "cha" : 10,
+    "con" : 1
+    }
+    brutus = Character(traits)
+    assert brutus.HP == 1

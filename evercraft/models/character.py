@@ -35,10 +35,6 @@ class Character:
     con = 10
     def __init__(self, obj=None):
         if obj:
-            self.name = obj["name"]
-            self.alignment = obj["alignment"] 
-            self.AC = obj["AC"]
-            self.HP = obj["HP"]
             self.life = obj["life"]
             self.str = obj["str"]
             self.dex = obj["dex"]
@@ -46,6 +42,10 @@ class Character:
             self.wis = obj["wis"]
             self.cha = obj["cha"]
             self.con = obj["con"]
+            self.name = obj["name"]
+            self.alignment = obj["alignment"] 
+            self.AC = obj["AC"]+(self.modify(self.dex))
+            self.HP = max(1, obj["HP"]+(self.modify(self.con)))
 
     def set_name(self, name):
        self.name = name
@@ -59,6 +59,8 @@ class Character:
         damage = 1 + mod
         ###
         if roll == 20:
+            if damage < 1:
+                damage = 1
             target.HP = target.HP - (damage*2)
             if target.HP <= 0:
                 target.life=False
