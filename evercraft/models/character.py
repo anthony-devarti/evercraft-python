@@ -10,7 +10,8 @@ TRAITS = {
     "int" : 10,
     "wis" : 10,
     "cha" : 10,
-    "con" : 10
+    "con" : 10,
+    "XP" : 0
 }
 
 
@@ -33,6 +34,7 @@ class Character:
     wis = 10
     cha = 10
     con = 10
+    XP = 0
     def __init__(self, obj=None):
         if obj:
             self.life = obj["life"]
@@ -46,6 +48,7 @@ class Character:
             self.alignment = obj["alignment"] 
             self.AC = obj["AC"]+(self.modify(self.dex))
             self.HP = max(1, obj["HP"]+(self.modify(self.con)))
+            self.XP = obj["XP"]
 
     def set_name(self, name):
        self.name = name
@@ -59,6 +62,7 @@ class Character:
         damage = 1 + mod
         ###
         if roll == 20:
+            self.XP = self.XP + 10
             if damage < 1:
                 damage = 1
             target.HP = target.HP - (damage*2)
@@ -66,6 +70,7 @@ class Character:
                 target.life=False
             return 'Hit'
         elif roll + mod >= target.AC:
+            self.XP = self.XP + 10
             if damage < 1:
                 damage = 1
             target.HP = target.HP - damage
@@ -118,7 +123,8 @@ bad_guy = {
     "int" : 10,
     "wis" : 10,
     "cha" : 10,
-    "con" : 10
+    "con" : 10,
+    "XP": 0
 }
 enemy = Character(bad_guy)
 print(c1.AC)

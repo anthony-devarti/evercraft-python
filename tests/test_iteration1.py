@@ -458,7 +458,63 @@ def test_bad_con_affects_hp():
     "int" : 10,
     "wis" : 10,
     "cha" : 10,
-    "con" : 1
+    "con" : 1,
+    "XP" : 0
     }
     brutus = Character(traits)
     assert brutus.HP == 1
+
+    # - When a successful attack occurs, the character 
+# gains 10 experience points
+def test_i_won_the_battle():
+    traits = {
+    "name": "Brutus",
+    "alignment": 'good',
+    "AC": 10,
+    'HP': 1,
+    "life": True,
+    "str" : 10,
+    "dex" : 14,
+    "int" : 10,
+    "wis" : 10,
+    "cha" : 10,
+    "con" : 1,
+    "XP" : 0
+    }
+    brutus = Character(traits)
+    oldXP=Character.XP
+    enemy = Character()
+    brutus.attack(enemy, 11, Character.str)
+    assert brutus.XP == oldXP+10
+
+    #### Feature: A Character Can Level
+
+# > As a character I want my experience points to increase my level and combat capabilities so that I can bring vengeance to my foes
+
+# - Level defaults to 1
+#this is the default level.  Every character made should start at 1, regardless of anything else
+def test_level_defaults_to_one():
+    doofus = Character()
+    assert doofus.level == 1
+# - After 1000 experience points, the character gains a level
+#     - 0 xp -> 1st Level
+#     - 1000 xp -> 2nd Level
+## This is where we should write a test that makes a character level up whenever they reach 1000XP
+
+
+
+#     - 2000 xp -> 3rd Level
+## We're probably modifying the first method to make it level the character up every 1000XP
+
+
+
+# - For each level:
+#     - hit points increase by 5 plus Con modifier
+## once again, modifying the level up method to make it make appropriate changes whenever the character goes up a Level to their CON stat
+
+
+
+
+#     - 1 is added to attack roll for every even level achieved
+## something that divides the level by 2 and rounds down then adds that much to their attack modifier.
+## this will probably alter the attack method.
