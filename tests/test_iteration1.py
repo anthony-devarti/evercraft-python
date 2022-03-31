@@ -103,29 +103,31 @@ def test_default_hit_points():
 def test_hit_on_20():
     traits = {}
     enemy = Character(traits)
-    assert Character.attack(enemy, 20, Character.str) == "Hit"
+    rufus = Character()
+    assert rufus.attack(enemy, 20, rufus.str) == "Hit"
 
 # test for a miss with a roll lower than the enemy AC
 
 
 def test_guess_i_never_miss_huh():
-    traits = {}
-    enemy = Character(traits)
-    assert Character.attack(enemy, 9, 10) == "Whiff"
+    enemy = Character()
+    rufus = Character()
+    assert rufus.attack(enemy, 9, 10) == "Whiff"
 
 # test for a hit with a result greater than enemy AC
 
 
 def test_i_slapped_will_smith():
+    enemy = Character()
+    rufus = Character()
+    assert rufus.attack(enemy, 10, 10) == "Hit"
+
+# test for a hit with a roll greater than enemy AC
+def test_i_slapped_will_smith_harder():
     traits = {}
     enemy = Character(traits)
-    assert Character.attack(enemy, 10, 10) == "Hit"
-
-# test for a hit with a roll greater than enemy ACdef test_i_slapped_will_smith_harder():
-
-    traits = {}
-    enemy = Character(traits)
-    assert Character.attack(enemy, 14, 10) == "Hit"
+    rufus = Character()
+    assert rufus.attack(enemy, 14, 10) == "Hit"
 
 
 # #### Feature: Character Can Be Damaged
@@ -135,9 +137,9 @@ def test_i_slapped_will_smith():
 # - If attack is successful, other character takes 1 point of damage when hit
 # this should have the enemy take one damage on a hit that isn't a crit
 def test_i_can_deal_damage():
-    traits = {}
-    enemy = Character(traits)
-    Character.attack(enemy, 19)
+    enemy = Character()
+    rufus = Character()
+    rufus.attack(enemy, 19, 10)
     assert enemy.HP == 4
 # - If a roll is a natural 20 then a critical hit is dealt and the damage is doubled
 
@@ -145,7 +147,8 @@ def test_i_can_deal_damage():
 def test_i_critically_deal_damage():
     traits = {}
     enemy = Character(traits)
-    Character.attack(enemy, 20)
+    rufus= Character()
+    rufus.attack(enemy, 20,10)
     assert enemy.HP == 3
 
 # - when hit points are 0 or fewer, the character is dead
@@ -166,7 +169,8 @@ def test_i_can_murder():
         "con": 10
     }
     whipporwill = Character(traits)
-    Character.attack(whipporwill, 19)
+    rufus = Character()
+    rufus.attack(whipporwill, 19, 10)
     assert whipporwill.HP == 0
 
 
@@ -185,7 +189,8 @@ def test_i_can_murder_better():
         "con": 10
     }
     whipporwill = Character(traits)
-    Character.attack(whipporwill, 20)
+    rufus=Character()
+    rufus.attack(whipporwill, 20,10)
     assert whipporwill.life == False
 
 # #### Feature: Character Has Abilities Scores
@@ -225,40 +230,52 @@ def test_i_have_special_abilities_like_no_one_else():
 
 ##create a modify method that takes in the score and returns the correct modifier
 def test_modifier_from_20():
-    assert Character.modify(20) == 5
+    rufus = Character()
+    assert rufus.modify(20) == 5
 
 def test_modifier_from_19():
-    assert Character.modify(19) == 4
+    rufus = Character()
+    assert rufus.modify(19) == 4
 
 def test_modifier_from_18():
-    assert Character.modify(18) == 4
+    rufus = Character()
+    assert rufus.modify(18) == 4
 
 def test_modifier_from_17():
-    assert Character.modify(17) == 3
+    rufus = Character()
+    assert rufus.modify(17) == 3
 
 def test_modifier_from_16():
-    assert Character.modify(16) == 3
+    rufus = Character()
+    assert rufus.modify(16) == 3
 
 def test_modifier_from_15():
-    assert Character.modify(15) == 2
+    rufus = Character()
+    assert rufus.modify(15) == 2
 
 def test_modifier_from_14():
-    assert Character.modify(14) == 2
+    rufus = Character()
+    assert rufus.modify(14) == 2
 
 def test_modifier_from_12():
-    assert Character.modify(12) == 1
+    rufus = Character()
+    assert rufus.modify(12) == 1
 
 def test_modifier_from_11():
-    assert Character.modify(11) == 0
+    rufus = Character()
+    assert rufus.modify(11) == 0
 
 def test_modifier_from_10():
-    assert Character.modify(10) == 0
+    rufus = Character()
+    assert rufus.modify(10) == 0
 
 def test_modifier_from_9():
-    assert Character.modify(9) == -1
+    rufus = Character()
+    assert rufus.modify(9) == -1
 
 def test_modifier_from_4():
-    assert Character.modify(4) == -3
+    rufus = Character()
+    assert rufus.modify(4) == -3
 
 #### Feature: Character Ability Modifiers Modify Attributes
 
@@ -279,7 +296,7 @@ def test_i_have_strength():
     "cha" : 10,
     "con" : 10
     }
-    c1=Character(traits)
+    rufus=Character(traits)
     bad_traits = {
         "name": "Evil Rufus",
         "alignment": 'evil',
@@ -294,8 +311,8 @@ def test_i_have_strength():
         "con" : 10
     }
     bad = Character(bad_traits)
-    c1.attack(bad, 9, c1.str)
-    assert bad.HP == 4
+    rufus.attack(bad, 9, rufus.str)
+    assert bad.HP == 3
     
 # - add strength mod to damage dealt
 
@@ -484,7 +501,7 @@ def test_i_won_the_battle():
     brutus = Character(traits)
     oldXP=Character.XP
     enemy = Character()
-    brutus.attack(enemy, 11, Character.str)
+    brutus.attack(enemy, 11, brutus.str)
     assert brutus.XP == oldXP+10
 
     #### Feature: A Character Can Level
@@ -496,25 +513,64 @@ def test_i_won_the_battle():
 def test_level_defaults_to_one():
     doofus = Character()
     assert doofus.level == 1
+
+## double back and check that our loop to assign traits is working as expected
+def test_incomplete_trait_assignment():
+    bad_traits={
+        "name": "doofus"
+    }
+    doofus = Character(bad_traits)
 # - After 1000 experience points, the character gains a level
 #     - 0 xp -> 1st Level
 #     - 1000 xp -> 2nd Level
 ## This is where we should write a test that makes a character level up whenever they reach 1000XP
-
-
-
+def test_i_can_level_up():
+    traits = {
+        "XP":990,
+        "level":1 
+    }
+    doofus = Character(traits)
+    baddie = Character()
+    doofus.attack(baddie, 20, doofus.str)
+    assert doofus.level == 2
+##Character is at correct level when they are created with starting XP
 #     - 2000 xp -> 3rd Level
 ## We're probably modifying the first method to make it level the character up every 1000XP
+def test_i_started_out_better():
+    traits = {
+        "XP":8000
+    }
+    doofus = Character(traits)
+    assert doofus.level == 9
+
+
 
 
 
 # - For each level:
 #     - hit points increase by 5 plus Con modifier
 ## once again, modifying the level up method to make it make appropriate changes whenever the character goes up a Level to their CON stat
-
+def test_my_HP_gets_better():
+    traits = {
+        "XP":1001,
+        "level":2,
+        "con":12
+    }
+    doofus = Character(traits)
+    assert doofus.HP == 12
 
 
 
 #     - 1 is added to attack roll for every even level achieved
+##this will likely break previous attack tests that check to make sure that the damage is calculating right
 ## something that divides the level by 2 and rounds down then adds that much to their attack modifier.
 ## this will probably alter the attack method.
+def test_my_damage_increases_w_level():
+    traits = {
+        "level": 2,
+        "XP":1010
+    }
+    rufus = Character(traits)
+    enemy = Character()
+    assert rufus.attack(enemy, 9, rufus.str) == "Hit"
+    
