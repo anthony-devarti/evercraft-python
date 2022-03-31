@@ -4,6 +4,7 @@ class Character:
     name = "Evercraft",
     alignment = "neutral",
     AC = 10
+    base_hp = 5
     HP = 5
     life = True
     str = 10
@@ -28,7 +29,8 @@ class Character:
         "cha": 10,
         "con": 10,
         "XP": 0,
-        "level": 1
+        "level": 1,
+        "base_hp":5
     }
 
     def __init__(self, obj={}):
@@ -107,7 +109,7 @@ class Character:
 
     def set_HP(self, score):
         print('character set hp')
-        return max(1, self.HP*self.level + self.modify(score)*self.level)
+        return max(1, self.base_hp * self.level + self.modify(score)*self.level)
 
     #this function probably should be called whenever a xp changes
     def check_XP(self, XP):

@@ -156,7 +156,7 @@ def test_i_critically_deal_damage():
 
 def test_i_can_murder():
     traits = {
-        "name": "Rufus",
+        "name": "bird",
         "alignment": 'good',
         "AC": 12,
         'HP': 1,
@@ -166,9 +166,11 @@ def test_i_can_murder():
         "int": 10,
         "wis": 10,
         "cha": 10,
-        "con": 10
+        "con": 10,
+        "base_hp":4
     }
     whipporwill = Character(traits)
+    whipporwill.HP = 1
     rufus = Character()
     rufus.attack(whipporwill, 19, 10)
     assert whipporwill.HP == 0
@@ -190,6 +192,7 @@ def test_i_can_murder_better():
     }
     whipporwill = Character(traits)
     rufus=Character()
+    whipporwill.HP=1
     rufus.attack(whipporwill, 20,10)
     assert whipporwill.life == False
 
