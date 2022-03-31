@@ -106,6 +106,7 @@ class Character:
         return max(1, self.AC + self.modify(score))
 
     def set_HP(self, score):
+        print('character set hp')
         return max(1, self.HP*self.level + self.modify(score)*self.level)
 
     #this function probably should be called whenever a xp changes
