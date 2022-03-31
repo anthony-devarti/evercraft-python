@@ -462,3 +462,30 @@ def test_bad_con_affects_hp():
     }
     brutus = Character(traits)
     assert brutus.HP == 1
+
+#### Feature: A Character can gain experience when 
+# attacking
+
+# > As a character I want to accumulate experience
+#  points (xp) when I attack my enemies so that I can 
+# earn bragging rights at the tavern
+
+# - When a successful attack occurs, the character 
+# gains 10 experience points
+def test_i_won_the_battle():
+    traits = {
+    "name": "Brutus",
+    "alignment": 'evil',
+    "AC": 10,
+    'HP': 1,
+    "life": True,
+    "str" : 10,
+    "dex" : 14,
+    "int" : 10,
+    "wis" : 10,
+    "cha" : 10,
+    "con" : 1,
+    }
+    brutus = Character(traits)
+    Character.attack(brutus, 11, brutus.str)
+    assert exp == 10
