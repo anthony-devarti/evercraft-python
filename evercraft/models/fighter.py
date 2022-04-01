@@ -1,5 +1,3 @@
-##this is working, but the output window is not recognizing it
-##we are successfully inheriting init and other functions from the parent
 from evercraft.models.character import Character
 
 class Fighter(Character):
@@ -33,8 +31,8 @@ class Fighter(Character):
             return "That doesn't seem to be a number"
         self.check_XP(self.XP)
 
+    # adding 10 hp per level instead of 5 to the fighter class
     def set_HP(self, score):
-        print('fighter set hp') 
         return self.HP + 10*(self.level-1) + self.modify(score)*self.level
         
 

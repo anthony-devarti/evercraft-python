@@ -33,7 +33,7 @@ class Rogue(Character):
             if target.HP <= 0:
                 target.life = False
             return 'Hit'
-        ##this removest the opp dex score and removes it
+        #this where the calculated dex is being subtracted from the target armor class
         elif roll + mod + mod_level >= target.AC - opp_dex:
             self.XP = self.XP + 10
             self.check_XP(self.XP)
@@ -47,7 +47,6 @@ class Rogue(Character):
             return "Whiff"
         else:
             return "That doesn't seem to be a number"
-        # removed this because its beneath the return statements
-        # self.check_XP(self.XP)
+
 
     
