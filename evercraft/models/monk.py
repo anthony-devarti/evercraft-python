@@ -60,10 +60,12 @@ class Monk(Character):
             return "That doesn't seem to be a number"
         self.check_XP(self.XP)
 
+    # adding 6 hp per level instead of 5
     def set_HP(self, score):
         print('character set hp')
         return max(6 * self.level, 6*self.level + self.modify(score)*self.level)
 
+    # adding 3 times the wisdom to the armor class
     def set_AC(self, score, second_score):
         print("I am modifying AC")
         return max(1, self.AC + self.modify(score) + self.modify(second_score))

@@ -66,7 +66,8 @@ class Paladin(Character):
         else:
             return "That doesn't seem to be a number"
         self.check_XP(self.XP)
-
+        
+    # add 8 hp per level instead of 5
     def set_HP(self, score):
         print('character set hp')
         return self.base_hp*self.level + self.modify(self.con)*self.level

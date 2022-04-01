@@ -26,3 +26,40 @@ def modify(score):
             7: -2
         }
     return switcher.get(score,"Invalid day of week")
+
+#   some non-default traits to work with
+# example_traits = {
+#     "name": "Rufus",
+#     "alignment": 'good',
+#     "AC": 12,
+#     'HP': 8,
+#     "life": True,
+#     "str": 12,
+#     "dex": 14,
+#     "int": 10,
+#     "wis": 10,
+#     "cha": 10,
+#     "con": 14,
+#     "XP": 0,
+#     "level": 1
+# }
+# Rufus = Character(example_traits)
+# c2 = Character()
+# bad_guy = {
+#     "name": "Evil Rufus",
+#     "alignment": 'evil',
+#     "AC": 12,
+#     'HP': 8,
+#     "life": True,
+#     "str": 10,
+#     "dex": 10,
+#     "int": 10,
+#     "wis": 10,
+#     "cha": 10,
+#     "con": 10,
+#     "XP": 0
+# }
+# bad_guy = Character(bad_guy)
+# print(Rufus.level)
+# Rufus.attack(bad_guy, 20, Rufus.str)
+# print(Rufus.level)
