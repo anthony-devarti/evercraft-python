@@ -15,10 +15,12 @@ class Character:
     con = 10
     XP = 0
     level = 1
+    race = "human"
     #object that stores the default values for a new character
     DEFAULT: {
         "name": "Evercraft",
         "alignment": "neutral",
+        "race":"human",
         "AC": 10,
         "HP": 5,
         "life": True,
@@ -57,6 +59,10 @@ class Character:
     #attack method
     #this handles attacks, damage, xp on sucessful attack, checking for level up
     def attack(self, target, roll, score):
+
+        #check this because it's probably no good
+        # racial_mod=racial_bonus(self, target)
+        
         #creates a mod for the attack roll
         mod = self.modify(score)
         #base damage and the modifier established earlier
@@ -77,7 +83,7 @@ class Character:
             if target.HP <= 0:
                 target.life = False
             return 'Hit'
-        elif roll + mod + mod_level >= target.AC:
+        elif roll + mod + mod_level + racial_bonus >= target.AC:
             self.XP = self.XP + 10
             self.check_XP(self.XP)
             if damage < 1:
@@ -90,7 +96,6 @@ class Character:
             return "Whiff"
         else:
             return "That doesn't seem to be a number"
-        self.check_XP(self.XP)
 
     def modify(self, score):
         switcher = {
@@ -124,12 +129,51 @@ class Character:
 
     def set_HP(self, score):
         print('character set hp')
-        return max(1, self.base_hp * self.level + self.modify(score)*self.level)
+        ##this should take care of the dwarf setup.
+        if self.race=="dwarf":
+            return max(1, self.base_hp * self.level + self.modify(score)*self.level*2)
+        else:
+            return max(1, self.base_hp * self.level + self.modify(score)*self.level)
 
+    def racial_bonus(self, target):
+        if target.race=="orc" and self.race=="dwarf":
+            return 2
+        else:
+            return 0
     #this function probably should be called whenever a xp changes
+    #this will include setAC and setHP so they will update when the lev
     def check_XP(self, XP):
+        #taking a snapshot of the current level
+        current_level=self.level
         self.level = (math.floor(self.XP/1000))+1
-
+        #checking for changes, and only running these if the level has changed
+        if self.level!=current_level:
+            self.set_AC(self.dex)
+            self.set_HP(self.con)
+    
+    #RACES#
+    def is_orc(self):
+        self.race="orc"
+        self.str=self.str+2
+        self.int=self.int-1
+        self.wis=self.wis-1
+        self.cha=self.cha-1
+        self.AC=self.AC+2
+    
+    def is_elf(self):
+        pass
+    
+    #this only will affect the HP at character creation.  
+    # This will need to apply another way at level up
+    def is_dwarf(self):
+        self.race="dwarf",
+        self.con=self.con+1
+        self.cha=self.cha-1
+        self.HP=max(self.HP, self.HP+self.modify(self.con)*2)
+        #is it possible to change the roll result from this function under certain circumstances?
+    
+    def is_halfling(self):
+        pass
 ##############
 #End of Class#
 ##############
