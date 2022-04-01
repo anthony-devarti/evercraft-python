@@ -3,6 +3,7 @@ from evercraft.models.character import Character
 from evercraft.models.fighter import Fighter
 from evercraft.models.rogue import Rogue
 from evercraft.models.monk import Monk
+from evercraft.models.paladin import Paladin
 
 
 ### Iteration 2 - Classes
@@ -156,3 +157,73 @@ def test_attack_increase_at_lvl_6():
     adrian = Monk(traits)
     enemy = Character()
     assert adrian.attack(enemy, 5, adrian.str) == "Hit"
+
+#   >Paladin<
+# - can only have Good alignment
+def test_must_be_good():
+    traits ={
+        "alignment":"evil"
+    }
+    marysue = Paladin(traits)
+    assert marysue.alignment == "good"
+
+# - has 8 hit points per level instead of 5
+def test_hp_paladin_style():
+    traits={
+        "XP":1001,
+        "level":2
+    }
+    marysue = Paladin(traits)
+    assert marysue.HP == 16
+#test again, but with above base con
+def test_hp_paladin_w_con():
+    traits={
+        "con":14,
+        "level":2,
+        "XP":1001
+    }
+    marysue=Paladin(traits)
+    assert marysue.HP == 20
+# - +2 to attack when attacking Evil characters
+def test_smite():
+    marysue=Paladin()
+    enemy=Character()
+    enemy.alignment = "evil"
+    assert marysue.attack(enemy, 8, marysue.str) == "Hit"
+
+#lets make sure it doesn't always apply
+def test_smite_only_wicked():
+    marysue=Paladin()
+    enemy=Character()
+    assert marysue.attack(enemy, 8, marysue.str) == "Whiff"
+
+# +2 to damage when attacking Evil characters
+def test_super_smite():
+    marysue=Paladin()
+    enemy=Character()
+    enemy.alignment="evil"
+    marysue.attack(enemy, 10, marysue.str)
+    assert enemy.HP==2
+#making sure it doesn't do this if the target isn't evil
+def test_super_smite_only_wicked():
+    marysue=Paladin()
+    enemy=Character()
+    marysue.attack(enemy, 10, marysue.str)
+    assert enemy.HP==2
+# - does triple damage when critting on an Evil character 
+#  (i.e. add the +2 bonus for a regular attack, and then triple that)
+def test_super_super_smite():
+    marysue=Paladin()
+    enemy=Character()
+    enemy.alignment="evil"
+    enemy.HP=9
+    marysue.attack(enemy, 20, marysue.str)
+    assert enemy.HP==0
+
+# - attacks roll is increased by 1 for every level instead of every other level
+def test_mod_level():
+    marysue=Paladin()
+    enemy=Character()
+    marysue.level=3
+    marysue.XP=2001
+    assert marysue.attack(enemy, 8, marysue.str)=="Hit"

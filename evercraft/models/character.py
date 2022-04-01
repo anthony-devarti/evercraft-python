@@ -15,7 +15,7 @@ class Character:
     con = 10
     XP = 0
     level = 1
-
+    #object that stores the default values for a new character
     DEFAULT: {
         "name": "Evercraft",
         "alignment": "neutral",
@@ -32,33 +32,48 @@ class Character:
         "level": 1,
         "base_hp":5
     }
-
+    
     def __init__(self, obj={}):
+        #for each key in the obj
         for key in obj:
+            #if there is an appropriate key
             if key in obj:
+                #set the attribute to the one in the key that was established
                 setattr(self, key, obj[key])
+            #otherwise
             else:
+                #set them to the values in the default object.
                 setattr(self, key, self.DEFAULT[key])
+        #set the armor class using the set_AC method.  Do the same for the set HP method
         self.AC = self.set_AC(self.dex)
         self.HP = self.set_HP(self.con)
         self.check_XP(self.XP)
-
+    #this isn't strictly necessary, since you can set the value without it.
     def set_name(self, name):
         self.name = name
-
+    #same for this
     def get_name(self):
         return self.name
-
+    #attack method
+    #this handles attacks, damage, xp on sucessful attack, checking for level up
     def attack(self, target, roll, score):
+        #creates a mod for the attack roll
         mod = self.modify(score)
+        #base damage and the modifier established earlier
         damage = 1 + mod
+        #a second modifier based on the level
         mod_level = (math.floor(self.level/2))
+        #check for a crit first
         if roll == 20:
+            #add XP, then check for a level up
             self.XP = self.XP + 10
             self.check_XP(self.XP)
+            #if, for any reason, the damage output is less than one, make it one instead
             if damage < 1:
                 damage = 1
+            #reduce the target's HP based on the damage output
             target.HP = target.HP - (damage*2)
+            #check if their HP was reduced to 0, and switch their life boolean to false if they are.
             if target.HP <= 0:
                 target.life = False
             return 'Hit'

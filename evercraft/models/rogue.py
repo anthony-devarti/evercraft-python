@@ -28,10 +28,12 @@ class Rogue(Character):
             self.check_XP(self.XP)
             if damage < 1:
                 damage = 1
+            ##rogues do more damage on crits
             target.HP = target.HP - (damage*3)
             if target.HP <= 0:
                 target.life = False
             return 'Hit'
+        ##this removest the opp dex score and removes it
         elif roll + mod + mod_level >= target.AC - opp_dex:
             self.XP = self.XP + 10
             self.check_XP(self.XP)
@@ -45,6 +47,7 @@ class Rogue(Character):
             return "Whiff"
         else:
             return "That doesn't seem to be a number"
-        self.check_XP(self.XP)
+        # removed this because its beneath the return statements
+        # self.check_XP(self.XP)
 
     
