@@ -104,7 +104,7 @@ def test_hit_on_20():
     traits = {}
     enemy = Character(traits)
     rufus = Character()
-    assert rufus.attack(enemy, 20, rufus.str) == "Hit"
+    assert rufus.attack(enemy, 20, rufus.str) == "Crit"
 
 # test for a miss with a roll lower than the enemy AC
 

@@ -71,5 +71,72 @@ def test_orc_rivalry():
     bibi.is_dwarf()
     enemy=Character()
     enemy.is_orc()
-    assert bibi.attack(enemy, 8, bibi.str)=="Hit"
+    assert bibi.attack(enemy, 10, bibi.str)=="Hit"
 # +2 bonus to attack when attacking orcs
+def test_orc_rivalry():
+    bibi=Character()
+    bibi.is_dwarf()
+    enemy=Character()
+    enemy.is_orc()
+    bibi.attack(enemy, 10, bibi.str)
+    assert enemy.HP==2
+
+#    >Elf< 
+
+# - +1 to Dexterity Modifier, -1 to Constitution Modifier
+def test_elf_dexterity():
+    elfi=Character()
+    elfi.is_elf()
+    assert elfi.dex == 11
+
+def test_elf_less_constitution():
+    elfi = Character()
+    elfi.is_elf()
+    assert elfi.con == 9
+
+# - does adds 1 to critical range for critical hits 
+def test_elf_critical_hit():
+    elfi = Character()
+    elfi.is_elf()
+    enemy = Character()
+    assert elfi.attack(enemy, 19, elfi.str) == "Crit"
+    
+# (20 -> 19-20, 19-20 -> 18-20)
+# - +2 to Armor Class when being attacked by orcs
+def test_orc_defense():
+    elfi = Character()
+    elfi.is_elf()
+    enemy = Character()
+    enemy.is_orc()
+    assert enemy.attack(elfi,9,enemy.str) == "Whiff"
+
+# >Halfling<
+
+# - +1 to Dexterity Modifier, -1 to Strength Modifier
+def test_hafling_dexterity():
+    hoofus=Character()
+    hoofus.is_halfling()
+    assert hoofus.dex == 11
+
+def test_halfling_less_strength():
+    hoofus=Character()
+    hoofus.is_halfling()
+    assert hoofus.str == 9
+
+# - +2 to Armor Class when being attacked by non Halfling 
+# (they are small and hard to hit)
+def test_halfing_defense():
+    hoofus = Character()
+    hoofus.is_halfling()
+    enemy = Character()
+    enemy.is_orc()
+    assert enemy.attack(hoofus,9,enemy.str) == "Whiff"
+
+# - cannot have Evil alignment
+def test_must_not_be_evil():
+    traits ={
+        "alignment":"evil"
+    }
+    hoofus = Character(traits)
+    hoofus.is_halfling()
+    assert hoofus.alignment != "good"

@@ -209,7 +209,7 @@ def test_super_smite_only_wicked():
     marysue=Paladin()
     enemy=Character()
     marysue.attack(enemy, 10, marysue.str)
-    assert enemy.HP==2
+    assert enemy.HP==4
 # - does triple damage when critting on an Evil character 
 #  (i.e. add the +2 bonus for a regular attack, and then triple that)
 def test_super_super_smite():
@@ -227,3 +227,4 @@ def test_mod_level():
     marysue.level=3
     marysue.XP=2001
     assert marysue.attack(enemy, 8, marysue.str)=="Hit"
+
